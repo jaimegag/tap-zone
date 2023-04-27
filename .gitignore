@@ -1,0 +1,5 @@
+.vscode
+site
+.DS_Store
+local-config/*
+!local-config/.gitkeep
