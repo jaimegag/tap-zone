@@ -1,0 +1,38 @@
+#!/bin/env groovy
+
+pipeline {
+  agent {
+    any {
+      label 'maven'
+    }
+  }
+  tools {
+    maven 'maven-3.9.2'
+    jdk 'java-17'
+  }
+
+  stages {
+    stage('Checkout code') {
+      steps {
+        script {
+          sourceUrl = params.SOURCE_REVISION
+          indexSlash = sourceUrl.indexOf("/")
+          revision = sourceUrl.substring(indexSlash + 1)
+        }
+        sh "rm -fr ./target"
+        sh "git clone ${params.GIT_URL} target"
+        dir("target") {
+          sh "git checkout ${revision}"
+        }
+      }
+    }
+
+    stage('Maven test') {
+      steps {
+        dir("target") {
+            sh "mvn clean test --no-transfer-progress"
+        }
+      }
+    }
+  }
+}
