@@ -1,0 +1,8 @@
+---
+tap_install:
+  sensitive_values:
+    shared:
+      image_registry:
+        username: "my_username"
+        password: "my_password"
+  

@@ -1,0 +1,19 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: lets-encrypt-cluster-issuer
+spec:
+  acme:
+    email: "changeme"
+    preferredChain: ""
+    privateKeySecretRef:
+      name: acme-account-key
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+    - dns01:
+        cloudDNS:
+          project: "changeme"
+          serviceAccountSecretRef:
+            key: credentials.json
+            name: gcloud-dns-service-account

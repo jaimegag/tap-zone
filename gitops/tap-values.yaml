@@ -1,0 +1,112 @@
+---
+tap_install:
+  values:
+    profile: full
+    shared:
+      ingress_domain: tap.zora.tkg-vsp-lab.hyrulelab.com
+      ingress_issuer: lets-encrypt-cluster-issuer
+      image_registry:
+        project_path: "harbor.rito.tkg-vsp-lab.hyrulelab.com/tap"
+    ceip_policy_disclosed: true # Installation fails if this not set to `true`
+    buildservice:
+      kp_default_repository: "harbor.rito.tkg-vsp-lab.hyrulelab.com/tap/build-service"
+      # exclude_dependencies: true
+    supply_chain: testing_scanning
+    ootb_supply_chain_testing_scanning:
+      gitops:
+        server_address: https://github.com/
+        repository_owner: jaimegag
+        repository_name: tap-gitops
+        branch: main
+        user_name: supplychain
+        user_email: supplychain
+        commit_message: supplychain@cluster.local
+        ssh_secret: git-secret
+        commit_strategy: direct
+    tap_gui:
+      service_type: ClusterIP
+      # tls:
+      #   secretName: contour-tls-delegation-cert-tls
+      #   namespace: tanzu-system-ingress
+      metadataStoreAutoconfiguration: true
+      app_config:
+        app:
+          baseUrl: https://tap-gui.tap.zora.tkg-vsp-lab.hyrulelab.com
+        catalog:
+          locations:
+            - type: url
+              target: https://github.com/jaimegag/tap-zone/blob/main/tap-gui/blank/catalog-info.yaml
+        backend:
+          baseUrl: https://tap-gui.tap.zora.tkg-vsp-lab.hyrulelab.com
+          cors:
+            origin: https://tap-gui.tap.zora.tkg-vsp-lab.hyrulelab.com
+          reading:
+            allow:
+              - host: "where-for-dinner-default.tap.zora.tkg-vsp-lab.hyrulelab.com"
+        # proxy:
+        #   /metadata-store:
+        #     target: https://metadata-store-app.metadata-store:8443/api/v1
+        #     changeOrigin: true
+        #     secure: false
+        #     headers:
+        #       Authorization: "Bearer ACCESS-TOKEN"
+        #       X-Custom-Source: project-star
+        kubernetes:
+          clusterLocatorMethods:
+            - type: 'config'
+              clusters:
+                - url: https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}
+                  name: host
+                  authProvider: serviceAccount
+                  serviceAccountToken: ${KUBERNETES_SERVICE_ACCOUNT_TOKEN}
+                  skipTLSVerify: true
+                  skipMetricsLookup: false
+        # techdocs:
+        #   builder: 'external'
+        #   publisher:
+        #     type: 'awsS3'
+        #     awsS3:
+        #       bucketName: BUCKET-NAME
+        #       credentials:
+        #         accessKeyId: AWS-READONLY-ACCESS-KEY-ID
+        #         secretAccessKey: AWS-READONLY-SECRET-ACCESS-KEY
+        #       region: AWS-REGION
+        #       s3ForcePathStyle: false
+    scanning:
+      metadataStore:
+        url: "" # disable the now deprecated embedded integration. Metadata Store integration was moved out from the controller and into the grype/snyk scanners integration
+    metadata_store:
+      ns_for_export_app_cert: "*"
+      app_service_type: ClusterIP # (optional) Defaults to LoadBalancer. Change to NodePort for distributions that don't support LoadBalancer
+    grype:
+      namespace: "default" # (optional) Defaults to default namespace.
+      targetImagePullSecret: "registry-credentials"
+    contour:
+      envoy:
+        service:
+          type: LoadBalancer
+    # cnrs:
+    #   domain_name: tap.zora.tkg-vsp-lab.hyrulelab.com
+    #   domain_template: "{{.Name}}.{{.Namespace}}.{{.Domain}}" # Hyphenated to leverage a single wildcard FQDN and cert for all things (GUI and apps)
+    #   default_tls_secret: tanzu-system-ingress/contour-tls-delegation-cert-tls
+    appliveview:
+      ingressEnabled: "true"
+    appliveview_connector:
+      backend:
+        sslDisabled: "true"
+    accelerator:
+      ingress:
+        include: "true"
+    package_overlays:
+    - name: cnrs
+      secrets:
+      - name: cnrs-network-config-overlay
+    policy:
+      tuf_enabled: false # By default, TUF initialization and keyless verification are deactivated.
+    namespace_provisioner:
+      controller: false
+      gitops_install:
+        ref: origin/main
+        subPath: clusters/zora/cluster-config/namespace-provisioner/namespaces
+        url: https://github.com/jaimegag/tap-gitops.git
+    #excluded_packages:
