@@ -1,0 +1,21 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: weatherforecast-steeltoe
+  labels:
+    apps.tanzu.vmware.com/workload-type: web
+    app.kubernetes.io/part-of: weatherforecast-steeltoe
+    apps.tanzu.vmware.com/has-tests: "true"
+    tanzu.app.live.view: "true"
+    tanzu.app.live.view.application.flavours: steeltoe
+    tanzu.app.live.view.application.name: weatherforecast-steeltoe
+spec:
+  params:
+  - name: annotations
+    value:
+      autoscaling.knative.dev/minScale: "1"
+  source:
+    git:
+      url: https://github.com/jaimegag/weatherforecast-steeltoe
+      ref:
+        branch: main
