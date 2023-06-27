@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: weatherforecast-steeltoe
+  description: "Weather Forecast Steeltoe"
+  tags:
+    - app-accelerator
+    - dotnet
+    - web
+    - tanzu
+  annotations:
+    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=weatherforecast-steeltoe'
+spec:
+  type: service
+  lifecycle: experimental
+  owner: default-team
