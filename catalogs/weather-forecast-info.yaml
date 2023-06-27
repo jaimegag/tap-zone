@@ -5,7 +5,7 @@ metadata:
   description: "Weather Forecast Steeltoe"
   tags:
     - app-accelerator
-    - dotNet
+    - dotnet
     - web
     - tanzu
   annotations:
