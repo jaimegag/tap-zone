@@ -1,6 +1,5 @@
 # Out of the Box Supply Chain with testing on Jenkins
 
-
 For the most part this guide follows the official docs [here]https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.5/tap/scc-ootb-supply-chain-testing-with-jenkins.html)
 
 ## 1. Prepare a Jenkins setup
@@ -20,8 +19,9 @@ The (obvious) first step is to make sure you have a working Jenkins setup, and w
 
 ```bash
 # Create Jenkins Secret with tthe user/password of your Jenkins Instance that you used to create the Jenkins Job in the previous step.
-# Edit with your Jenkins user credentials before applying
-kubectl apply -f ./config/jenkins-secret.yaml -n myapps
+cp ./config/jenkins-secret.yaml ./local-config/jenkins-secret.yaml
+# Edit ./local-config/jenkins-secret.yaml with your Jenkins user credentials before applying
+kubectl apply -f ./local-config/jenkins-secret.yaml -n myapps
 
 # Create Jenkins Pipeline
 kubectl apply -f ./config/tekton-pipeline-jenkins.yaml
