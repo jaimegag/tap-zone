@@ -2,7 +2,7 @@
 
 ### 0. Prerequisites
 - You already have the TAP Iterate/Full cluster in place
-- You already have `tilt` installed in your workstation
+- You already have `tilt` [installed](https://docs.tilt.dev/install.html) in your workstation (v.0.30.12 or later)
 - Install the `Tanzu Developer Tools` plugin corresponding to your TAP version in VSCode
 - Install VSCode C# plugin
 - Install .NET 6.0 SDK. This the [url](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.408-macos-arm64-installer) for MAC M1 chipsets.

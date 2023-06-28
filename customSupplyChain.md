@@ -81,3 +81,7 @@ tanzu apps workload create csharp-rest-service-x2 \
 #   -n myapps \
 #   --yes
 ```
+
+Your application should be processed by your Custom Supply Chain running the new extra step at the end, and TAP GUI should be able to display it as well:
+
+<img src="./images/supply-chain-end.png" width="800"><br>
