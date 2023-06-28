@@ -29,9 +29,9 @@ spec:
     #@       params.append({"name": param, "value": data.values.params["jenkins_final_pipeline_params"][param]})
     #@     end
     #@   end
-    #@   params.append({"name": "gitops_repo", "value": json.encode(data.values.config[0].value)})
-    #@   params.append({"name": "gitops_branch", "value": json.encode(data.values.config[1].value)})
-    #@   params.append({"name": "gitops_subpath", "value": json.encode(data.values.config[6].value)})
+    #@   params.append({"name": "gitops-repo", "value": data.values.config[0].value})
+    #@   params.append({"name": "gitops-branch", "value": data.values.config[1].value})
+    #@   params.append({"name": "gitops-subpath", "value": data.values.config[6].value})
     #@   return params
     #@ end
 

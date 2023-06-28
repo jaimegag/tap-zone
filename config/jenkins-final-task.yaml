@@ -4,11 +4,11 @@ metadata:
   name: jenkins-final-task
 spec:
   params:
-  - name: gitops_repo
+  - name: gitops-repo
     type: string
-  - name: gitops_branch
+  - name: gitops-branch
     type: string
-  - name: gitops_subpath
+  - name: gitops-subpath
     type: string
   - name: secret-name
     type: string
@@ -51,12 +51,12 @@ spec:
           key: ca-cert
           name: $(params.secret-name)
           optional: true
-    - name: gitops_repo
-      value: $(params.gitops_repo)
-    - name: gitops_branch
-      value: $(params.gitops_branch)
-    - name: gitops_subpath
-      value: $(params.gitops_subpath)
+    - name: gitops-repo
+      value: $(params.gitops-repo)
+    - name: gitops-branch
+      value: $(params.gitops-branch)
+    - name: gitops-subpath
+      value: $(params.gitops-subpath)
     image: harbor.rito.tkg-vsp-lab.hyrulelab.com/tap/tap-packages@sha256:7e201eeb489fcf861998cc27faa581d0e38472068dffb195eb26ba5769fed262
     name: trigger-jenkins-build
     resources: {}

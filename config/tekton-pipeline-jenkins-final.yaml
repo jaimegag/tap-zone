@@ -13,9 +13,9 @@ spec:
   - name: secret-name       #! Required
   - name: job-name          #! Required
   - name: job-params        #! Required
-  - name: gitops_repo
-  - name: gitops_branch
-  - name: gitops_subpath
+  - name: gitops-repo
+  - name: gitops-branch
+  - name: gitops-subpath
   tasks:
   #! Required: Include the built-in task that triggers the
   #! given job in Jenkins
@@ -30,9 +30,9 @@ spec:
         value: $(params.job-name)
       - name: job-params
         value: $(params.job-params)
-      - name: gitops_repo
-        value: $(params.gitops_repo)
-      - name: gitops_branch
-        value: $(params.gitops_branch)
-      - name: gitops_subpath
-        value: $(params.gitops_subpath)
+      - name: gitops-repo
+        value: $(params.gitops-repo)
+      - name: gitops-branch
+        value: $(params.gitops-branch)
+      - name: gitops-subpath
+        value: $(params.gitops-subpath)

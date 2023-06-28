@@ -14,9 +14,13 @@ pipeline {
     stage('Main step') {
       steps {
         script {
-          gitUrl = params.GIT_URL
+          gitopsRepo = params.GITOPS_REPO
+          gitopsBranch = params.GITOPS_BRANCH
+          gitopsSubPath = params.GITOPS_SUBPATH
         }
-        sh "echo 'GIT_URL: 'gitUrl"
+        sh "echo 'GITOPS_REPO: '$gitopsRepo"
+        sh "echo 'GITOPS_BRANCH: '$gitopsBranch"
+        sh "echo 'GITOPS_SUBPATH: '$gitopsSubPath"
         sh "echo 'JENKINS FINALIZER JOB: ALL OK'"
       }
     }

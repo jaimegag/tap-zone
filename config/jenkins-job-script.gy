@@ -15,10 +15,14 @@ pipeline {
     stage('Checkout code') {
       steps {
         script {
-          sourceUrl = params.SOURCE_REVISION
-          indexSlash = sourceUrl.indexOf("/")
-          revision = sourceUrl.substring(indexSlash + 1)
+          sourceUrl = params.SOURCE_URL
+          sourceRevision = params.SOURCE_REVISION
+          indexSlash = sourceRevision.indexOf("/")
+          revision = sourceRevision.substring(indexSlash + 1)
         }
+        sh "echo $params"
+        sh "echo 'SOURCE_URL: '$SOURCE_URL"
+        sh "echo 'SOURCE_URL2: '$sourceUrl"
         sh "rm -fr ./target"
         sh "git clone ${params.GIT_URL} target"
         dir("target") {
