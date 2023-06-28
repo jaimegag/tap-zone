@@ -1,0 +1,38 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: developer-defined-jenkins-final-tekton-pipeline
+  namespace: myapps
+spec:
+  results:
+  - name: jenkins-job-url   #! To show the job URL on the
+    #! Tanzu Application Platform GUI
+    value: $(tasks.jenkins-final-task.results.jenkins-job-url)
+  params:
+  - name: secret-name       #! Required
+  - name: job-name          #! Required
+  - name: job-params        #! Required
+  - name: gitops_repo
+  - name: gitops_branch
+  - name: gitops_subpath
+  tasks:
+  #! Required: Include the built-in task that triggers the
+  #! given job in Jenkins
+  - name: jenkins-final-task
+    taskRef:
+      name: jenkins-final-task
+      kind: ClusterTask
+    params:
+      - name: secret-name
+        value: $(params.secret-name)
+      - name: job-name
+        value: $(params.job-name)
+      - name: job-params
+        value: $(params.job-params)
+      - name: gitops_repo
+        value: $(params.gitops_repo)
+      - name: gitops_branch
+        value: $(params.gitops_branch)
+      - name: gitops_subpath
+        value: $(params.gitops_subpath)

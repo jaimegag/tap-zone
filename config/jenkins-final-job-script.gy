@@ -1,0 +1,24 @@
+#!/bin/env groovy
+
+pipeline {
+  agent {
+    any {
+      label 'maven'
+    }
+  }
+  tools {
+    maven 'maven-3.9.2'
+  }
+
+  stages {
+    stage('Main step') {
+      steps {
+        script {
+          gitUrl = params.GIT_URL
+        }
+        sh "echo 'GIT_URL: 'gitUrl"
+        sh "echo 'JENKINS FINALIZER JOB: ALL OK'"
+      }
+    }
+  }
+}

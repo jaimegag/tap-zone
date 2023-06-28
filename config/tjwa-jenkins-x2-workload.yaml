@@ -1,0 +1,47 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: tanzu-java-jenkins-x2
+  labels:
+    #apps.tanzu.vmware.com/workload-type: web-j
+    apps.tanzu.vmware.com/workload-type: server-j
+    apps.tanzu.vmware.com/has-tests: "true"
+    apps.tanzu.vmware.com/auto-configure-actuators: "true"
+    app.kubernetes.io/part-of: tanzu-java-web-app
+spec:
+  build:
+    env:
+      - name: BP_JVM_VERSION
+        value: "17"
+  params:
+  - name: annotations
+    value:
+      autoscaling.knative.dev/minScale: "1"
+  - name: testing_pipeline_matching_labels
+    value:
+      apps.tanzu.vmware.com/pipeline: jenkins-pipeline
+  - name: testing_pipeline_params
+    value:
+      #! Required: Name of the Jenkins job
+      job-name: tap-java-test
+      #! Required: The secret created earlier to access Jenkins
+      secret-name: jenkins-secret
+      #! Required: The `job-params` element is required, but the parameter string
+      #! might be empty. If empty, then set this value to `[]`.  If non-empty then the
+      #! value contains a JSON-encoded list of parameters to pass to the Jenkins job.
+      #! Ensure that the quotation marks inside the JSON-encoded string are escaped.
+      job-params: "[{\"name\":\"GIT_URL\", \"value\":\"https://github.com/jaimegag/tanzu-java-web-app\"}, {\"name\":\"GIT_BRANCH\", \"value\":\"main\"}]"
+  - name: jenkins_final_pipeline_params
+    value:
+      #! Required: Name of the Jenkins job
+      job-name: tap-finalizer
+      #! Required: The secret created earlier to access Jenkins
+      secret-name: jenkins-secret
+      #! Required: The `job-params` element is required, but the parameter string
+      #! should be empty for this jenkins integration. If empty, then set this value to `[]`
+      job-params: "[]"
+  source:
+    git:
+      url: https://github.com/jaimegag/tanzu-java-web-app
+      ref:
+        branch: main
