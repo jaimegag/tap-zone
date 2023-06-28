@@ -69,7 +69,7 @@ tanzu apps cluster-supply-chain get source-test-scan-jenkins-to-url
 
 ### 4. Deploy Workloads that use this supply chain
 
-Both Workloads have been prepared in this repo:
+We have prepared 2 Workloads in this repo with the right `workload-type` and params to be able to be processed by the new Supply Chain:
 ```bash
 tanzu apps workload create csharp-rest-service-x2 \
   -f ./config/crwa-x2-workload.yaml \
