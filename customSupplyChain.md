@@ -85,3 +85,8 @@ tanzu apps workload create csharp-rest-service-x2 \
 Your application should be processed by your Custom Supply Chain running the new extra step at the end, and TAP GUI should be able to display it as well:
 
 <img src="./images/supply-chain-end.png" width="800"><br>
+
+In your Jenkins instance you should be able to see the last job execution and in the Output all the gitops information we passed to the Jenkins job:
+
+<img src="./images/jenkins-final-job.png" width="800"><br>
+
