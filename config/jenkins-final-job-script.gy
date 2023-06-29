@@ -3,20 +3,16 @@
 pipeline {
   agent {
     any {
-      label 'maven'
     }
-  }
-  tools {
-    maven 'maven-3.9.2'
   }
 
   stages {
     stage('Main step') {
       steps {
         script {
-          gitopsRepo = params.GITOPS_REPO
-          gitopsBranch = params.GITOPS_BRANCH
-          gitopsSubPath = params.GITOPS_SUBPATH
+          gitopsRepo = params.git_repository
+          gitopsBranch = params.git_branch
+          gitopsSubPath = params.sub_path
         }
         sh "echo 'GITOPS_REPO: '$gitopsRepo"
         sh "echo 'GITOPS_BRANCH: '$gitopsBranch"

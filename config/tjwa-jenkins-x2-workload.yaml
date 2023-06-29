@@ -37,9 +37,6 @@ spec:
       job-name: tap-finalizer
       #! Required: The secret created earlier to access Jenkins
       secret-name: jenkins-secret
-      #! Required: The `job-params` element is required, but the parameter string
-      #! should be empty for this jenkins integration. If empty, then set this value to `[]`
-      job-params: "[]"
   source:
     git:
       url: https://github.com/jaimegag/tanzu-java-web-app

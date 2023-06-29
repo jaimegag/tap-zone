@@ -16,6 +16,7 @@ spec:
   - name: gitops-repo
   - name: gitops-branch
   - name: gitops-subpath
+  - name: source-url
   tasks:
   #! Required: Include the built-in task that triggers the
   #! given job in Jenkins
@@ -30,9 +31,11 @@ spec:
         value: $(params.job-name)
       - name: job-params
         value: $(params.job-params)
-      - name: gitops-repo
+      - name: gitops-repo   # Keeping for future review: they are not being passed to the Jenkins job call
         value: $(params.gitops-repo)
-      - name: gitops-branch
+      - name: gitops-branch   # Keeping for future review: they are not being passed to the Jenkins job call
         value: $(params.gitops-branch)
-      - name: gitops-subpath
+      - name: gitops-subpath   # Keeping for future review: they are not being passed to the Jenkins job call
         value: $(params.gitops-subpath)
+      - name: source-url   # Keeping for comparison: being passed to the Jenkins job call, but not needed
+        value: $(params.source-url)

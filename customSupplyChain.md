@@ -11,6 +11,7 @@ We have prepared this in the `./config/jenkins-final-template.yaml` in this repo
 - We also have to set the ClusterTemplate `singleConditionType: Succeeded`. Reason: We need a healthRule that matches with a successful execution and status of the stamped object
 
 We have also prepared both the Pipeline resource and Cluster Task including all parameters that we want to pass to the Jenkins job at this stage of the Supply Chain: All gitops config parameters used by the Config Writer: `./config/tekton-pipeline-jenkins-final.yaml` and `./config/jenkins-final-task.yaml` respectively.
+> Note: To pass all the gitops parameters all the way through the PipelineRun > TaskRun and into the call to the Jenkins Job we ended up needing to add all of them as a json array in the `job-param` that is passed as an argument when calling the jenkins job. That ensures they are reaching the job and can be read from there. Previous attempts to use other params that are passed in the `env` like the `source-url` are not working, as it seems that only special `env` params like `source-url` and `source-revision` are properly processed by the Tekton ClusterTask to reach the Jenkins job.
 
 Deploy all in your Build/Full Cluster
 ```bash
@@ -67,7 +68,20 @@ tanzu apps cluster-supply-chain get source-test-scan-jenkins-to-url
 #    expressions   apps.tanzu.vmware.com/workload-type   In         worker-j
 ```
 
-### 4. Deploy Workloads that use this supply chain
+### 4. Prepare a Jenkins Job in your Jenkins instance
+
+You need a Jenkins (Pipeline) Job to be able to run when invoked from our new Supply Chain step.
+
+The (obvious) first step is to make sure you have a working Jenkins setup, and while many different setups would work well, here's a list of things to make sure you have propperly installed and configured to ensure success with the rest of this guide:
+- Install the following plug-ins and dependencies: Pipeline, Maven, Pipeline Maven, Groovy and Groovy Pipeline
+- Create New Item type Pipeline and name it (e.g: `tap-finalizer`). Make sure its configuration includes:
+  - Click on `This project is parametrized` and:
+    - Add String Parameter: git_repository
+    - Add String Parameter: git_branch
+    - Add String Parameter: sub_path
+  - Add Pipeline Script > Copy contents from the `./config/jenkins-final-job-script.py` file in this repo.
+
+### 5. Deploy Workloads that use this supply chain
 
 We have prepared 2 Workloads in this repo with the right `workload-type` and params to be able to be processed by the new Supply Chain:
 ```bash

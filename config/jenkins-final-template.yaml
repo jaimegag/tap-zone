@@ -32,6 +32,8 @@ spec:
     #@   params.append({"name": "gitops-repo", "value": data.values.config[0].value})
     #@   params.append({"name": "gitops-branch", "value": data.values.config[1].value})
     #@   params.append({"name": "gitops-subpath", "value": data.values.config[6].value})
+    #@   params.append({"name": "source-url", "value": "dummy-source-url"})
+    #@   params.append({"name": "job-params", "value": json.encode(data.values.config)})
     #@   return params
     #@ end
 
